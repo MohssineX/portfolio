@@ -5,10 +5,7 @@
 (function () {
   var root = document.documentElement;
   var btn = document.getElementById("theme-toggle");
-  try {
-    var saved = localStorage.getItem("theme");
-    if (saved) root.setAttribute("data-theme", saved);
-  } catch (e) {}
+  // The saved theme is applied by the inline script in <head>
 
   function isLight() {
     var t = root.getAttribute("data-theme");
@@ -34,24 +31,50 @@
   });
 })();
 
-// Live star counts from GitHub, fetched on every page load (one API request)
+// Live star and fork counts from GitHub, cached for 30 minutes to stay under
+// the unauthenticated API limit (60 requests/hour per IP).
+// Stars show whenever known; forks show only when greater than 0.
+// If a fetch fails, the cached values (if any) stay on screen.
 (function () {
+  var KEY = "gh-counts-v2";
+  var TTL = 30 * 60 * 1000;
+
+  function setTag(card, selector, n, label, hideZero) {
+    var tag = card.querySelector(selector);
+    if (!tag) return;
+    if (typeof n !== "number" || (hideZero && n <= 0)) { tag.hidden = true; return; }
+    tag.querySelector(".count").textContent = n;
+    tag.title = n + " " + label;
+    tag.hidden = false;
+  }
+
+  function apply(data) {
+    document.querySelectorAll("[data-repo]").forEach(function (card) {
+      var r = data[card.getAttribute("data-repo").toLowerCase()];
+      if (!r) return;
+      setTag(card, ".tag.stars", r.stars, "GitHub stars", false);
+      setTag(card, ".tag.forks", r.forks, "GitHub forks", true);
+    });
+  }
+
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  if (cached && cached.data) {
+    apply(cached.data);
+    if (Date.now() - cached.time < TTL) return;
+  }
+
   fetch("https://api.github.com/users/MohssineX/repos?per_page=100", {
-    headers: { "Accept": "application/vnd.github+json" },
-    cache: "no-store"
+    headers: { "Accept": "application/vnd.github+json" }
   })
     .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
     .then(function (repos) {
-      var stars = {};
-      repos.forEach(function (r) { stars[r.name.toLowerCase()] = r.stargazers_count; });
-      document.querySelectorAll("[data-repo]").forEach(function (card) {
-        var n = stars[card.getAttribute("data-repo").toLowerCase()];
-        if (typeof n !== "number") return;
-        var tag = card.querySelector(".tag.stars");
-        tag.querySelector(".count").textContent = n;
-        tag.title = n + " GitHub stars";
-        tag.hidden = false;
+      var data = {};
+      repos.forEach(function (r) {
+        data[r.name.toLowerCase()] = { stars: r.stargazers_count, forks: r.forks_count };
       });
+      apply(data);
+      try { localStorage.setItem(KEY, JSON.stringify({ time: Date.now(), data: data })); } catch (e) {}
     })
-    .catch(function () { /* offline or rate-limited: stars stay hidden */ });
+    .catch(function () { /* offline or rate-limited: keep cached/hidden values */ });
 })();
