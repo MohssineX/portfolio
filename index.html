@@ -10,10 +10,22 @@
 <meta name="color-scheme" content="dark light">
 <title>Mohssine</title>
 
+<script>
+// Apply the saved theme before first paint to avoid a flash
+try {
+  var t = localStorage.getItem("theme");
+  if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+} catch (e) {}
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></symbol>
+  <symbol id="fork" viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></symbol>
+</svg>
+
 <div class="wrap">
 
 <div class="topbar">
@@ -21,20 +33,20 @@
 </div>
 
 <header class="profile-header">
-  <img
-    class="profile-picture"
-    src="https://github.com/MohssineX.png?size=360"
-    alt="MohssineX profile picture"
-  >
-
   <div>
-    <h1>Mohssine</h1>
+    <h1 aria-label="Mohssine"><span data-hex="4D" aria-hidden="true">M</span><span data-hex="6F" aria-hidden="true">o</span><span data-hex="68" aria-hidden="true">h</span><span data-hex="73" aria-hidden="true">s</span><span data-hex="73" aria-hidden="true">s</span><span data-hex="69" aria-hidden="true">i</span><span data-hex="6E" aria-hidden="true">n</span><span data-hex="65" aria-hidden="true">e</span></h1>
     <p class="subtitle">My name is 4D6F687373696E65</p>
     <a class="github-link" href="https://github.com/MohssineX" target="_blank" rel="noopener noreferrer">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
       GitHub Profile
     </a>
   </div>
+
+  <img
+    class="profile-picture"
+    src="https://github.com/MohssineX.png?size=360"
+    alt="MohssineX profile picture"
+  >
 </header>
 
 <main>
@@ -63,9 +75,10 @@
     <span class="project-desc">Terminal Quran player for streaming and downloading recitations.</span>
     <span class="tags">
       <span class="tag">Python</span>
-      <span class="tag neutral">GPL v3.0</span>
+      <span class="tag">GPL v3.0</span>
       <span class="tag archived">Archived</span>
-      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg><span class="count"></span></span>
+      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#star"/></svg><span class="count"></span></span>
+      <span class="tag forks" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#fork"/></svg><span class="count"></span></span>
     </span>
   </a>
 
@@ -74,8 +87,9 @@
     <span class="project-desc">Animated ASCII art banners inspired by FOSS.</span>
     <span class="tags">
       <span class="tag">Python</span>
-      <span class="tag neutral">GPL v3.0</span>
-      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg><span class="count"></span></span>
+      <span class="tag">GPL v3.0</span>
+      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#star"/></svg><span class="count"></span></span>
+      <span class="tag forks" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#fork"/></svg><span class="count"></span></span>
     </span>
   </a>
 
@@ -84,8 +98,9 @@
     <span class="project-desc">A lightweight real-time RAM monitoring tool.</span>
     <span class="tags">
       <span class="tag">Python</span>
-      <span class="tag neutral">GPL v3.0</span>
-      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg><span class="count"></span></span>
+      <span class="tag">GPL v3.0</span>
+      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#star"/></svg><span class="count"></span></span>
+      <span class="tag forks" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#fork"/></svg><span class="count"></span></span>
     </span>
   </a>
 
@@ -94,8 +109,9 @@
     <span class="project-desc">mcls: a simple terminal command to clear the screen and scrollback buffer</span>
     <span class="tags">
       <span class="tag">Go</span>
-      <span class="tag neutral">Apache License 2.0</span>
-      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg><span class="count"></span></span>
+      <span class="tag">Apache License 2.0</span>
+      <span class="tag stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#star"/></svg><span class="count"></span></span>
+      <span class="tag forks" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#fork"/></svg><span class="count"></span></span>
     </span>
   </a>
 
@@ -113,8 +129,6 @@
 </ul>
 
 </main>
-
-<hr>
 
 <footer>
   <p>
